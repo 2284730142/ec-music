@@ -1,7 +1,7 @@
 import React, {useContext, useEffect} from 'react';
 import {Button} from 'antd';
 import {useHistory} from 'react-router';
-import {AppContext} from '../../app';
+import {AppContext} from '../../reducers/provider';
 
 const Other = () => {
   const {useGlobalState: {state}} = useContext(AppContext);

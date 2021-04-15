@@ -7,17 +7,11 @@ import './antd.global.css';
 // 路由下的相关页面
 import {Home} from './pages/home/home';
 import {Test} from './pages/test/test';
-// 小型聚合Store（Context方案替代）
-import {useGlobalState} from './reducers/global.reducer';
-
-export const AppContext = createContext(null);
 
 const App = () => {
 
   return (
-    <AppContext.Provider value={{
-      useGlobalState: useGlobalState(),
-    }}>
+    <Provider>
       <ConfigProvider>
         <BrowserRouter>
           <Switch>
@@ -31,7 +25,7 @@ const App = () => {
           </Switch>
         </BrowserRouter>
       </ConfigProvider>
-    </AppContext.Provider>
+    </Provider>
   );
 };
 

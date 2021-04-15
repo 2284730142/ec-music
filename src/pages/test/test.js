@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {Button} from 'antd';
 import {useHistory} from 'react-router';
-import {AppContext} from '../../app';
+import {AppContext} from '../../reducers/provider';
 
 export const Test = ({}) => {
   const history = useHistory();
