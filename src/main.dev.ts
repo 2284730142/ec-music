@@ -14,7 +14,6 @@ import path from 'path';
 import { app, BrowserWindow } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import MenuBuilder from './menu';
 
 const RESOURCES_PATH = app.isPackaged ? path.join(process.resourcesPath, 'assets') : path.join(__dirname, '../assets');
 
@@ -51,18 +50,19 @@ const installExtensions = async () => {
 };
 // 创建窗体
 const createWindow = async () => {
+
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
     await installExtensions();
   }
   // 获取桌面动态窗体大小
   // const { width, height } = screen.getPrimaryDisplay().workAreaSize;
   mainWindow = new BrowserWindow({
-    width: 300, height: 400,
+    width: 1280, height: 960,
     icon: getAssetPath('icon.png'),
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-      devTools: false,
+      devTools: true,
     },
     fullscreen: false, // 默认全屏
     show: false // 启动时白屏优化点
@@ -75,34 +75,14 @@ const createWindow = async () => {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined');
     }
-    // 窗体最大化
-    // mainWindow.maximize();
     mainWindow.show();
-    // 开启焦点
-    // mainWindow.focus();
   });
   // 关闭程序
   mainWindow.on('closed', () => {
-    // 回收BrowserWindow对象
     mainWindow = null;
   });
-  // 视窗大小改变
-  // mainWindow.on('resize', () => {
-  //   mainWindow && mainWindow.reload();
-  // });
   // 移除菜单栏
-  // mainWindow.setMenu(null);
-  // 菜单栏
-  const menuBuilder = new MenuBuilder(mainWindow);
-  menuBuilder.buildMenu();
-  // Open urls in the user's browser
-  // mainWindow.webContents.on('new-window', (event, url) => {
-  //   event.preventDefault();
-  //   shell.openExternal(url);
-  // });
-  // Remove this if your app does not use auto updates
-  // eslint-disable-next-line
-  // new AppUpdater();
+  mainWindow.setMenu(null);
 };
 
 /**
@@ -110,8 +90,6 @@ const createWindow = async () => {
  */
 
 app.on('window-all-closed', () => {
-  // Respect the OSX convention of having the application in memory even
-  // after all windows have been closed
   if (process.platform !== 'darwin') {
     app.quit();
   }
@@ -120,8 +98,6 @@ app.on('window-all-closed', () => {
 app.whenReady().then(createWindow).catch(console.log);
 
 app.on('activate', () => {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
     (async () => {
       await createWindow();
