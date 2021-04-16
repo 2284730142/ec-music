@@ -14,7 +14,8 @@ const Other = () => {
 export const Home = ({}) => {
 
   const history = useHistory();
-  const {useGlobalState: {state, dispatch, ACTION}} = useContext(AppContext);
+  const {useGlobalState: {state, dispatch}, ACTION} = useContext(AppContext);
+  console.log(ACTION);
 
   return (
     <div>

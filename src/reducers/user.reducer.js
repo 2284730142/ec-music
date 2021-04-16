@@ -1,10 +1,10 @@
 import {useReducer} from 'react';
 import {ACTION} from './action';
 
-export const useGlobalState = () => {
+export const userState = () => {
 
   const initialState = {
-    collapse: true
+    userInfo: true
   };
 
   const action = (state, {type, payload}) => {

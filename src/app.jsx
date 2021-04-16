@@ -1,6 +1,7 @@
-import React, {createContext} from 'react';
+import React from 'react';
 import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 import {ConfigProvider} from 'antd';
+import {Provider} from './reducers/provider';
 // global引入的样式放这
 import './global.css';
 import './antd.global.css';
