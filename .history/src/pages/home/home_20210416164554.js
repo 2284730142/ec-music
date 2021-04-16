@@ -29,8 +29,8 @@ export const Home = ({}) => {
             collapse: !state.collapse
           }
         });
-      }}>状态转换</Button>
-      <Other/> */}
+      }}>状态转换</Button> */}
+      <Other/>
     </div>
   );
 };
