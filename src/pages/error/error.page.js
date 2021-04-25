@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Error = ({ type }) => {
+export const ErrorPage = ({ type }) => {
   return (<>
     404
   </>);

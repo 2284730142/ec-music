@@ -7,13 +7,16 @@
  *
  * When running `yarn build` or `yarn build:main`, this file is compiled to
  * `./src/main.prod.js` using webpack. This gives us some performance wins.
+ * 备注：此处的console只能写英文，中文是乱码！！！
  */
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import path from 'path';
-import { app, BrowserWindow } from 'electron';
-import { autoUpdater } from 'electron-updater';
+import {app, BrowserWindow} from 'electron';
+import {autoUpdater} from 'electron-updater';
 import log from 'electron-log';
+import expressServer from './server/app';
+import {serverPort} from "./server/config";
 
 const RESOURCES_PATH = app.isPackaged ? path.join(process.resourcesPath, 'assets') : path.join(__dirname, '../assets');
 
@@ -62,7 +65,7 @@ const createWindow = async () => {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-      devTools: true,
+      devTools: true, // 正式的包不会有
     },
     fullscreen: false, // 默认全屏
     show: false // 启动时白屏优化点
@@ -83,6 +86,10 @@ const createWindow = async () => {
   });
   // 移除菜单栏
   mainWindow.setMenu(null);
+  // 创建本地node服务（整合express） todo 更改为子线程服务后续接着改成cluster模式的service
+  expressServer.listen(serverPort, () => {
+    console.log(`Example app listening at http://localhost:${serverPort}`);
+  });
 };
 
 /**
