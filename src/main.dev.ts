@@ -12,11 +12,12 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import path from 'path';
-import {app, BrowserWindow} from 'electron';
+import {app, BrowserWindow, ipcMain, IpcMainEvent} from 'electron';
 import {autoUpdater} from 'electron-updater';
 import log from 'electron-log';
 import expressServer from './server/app';
 import {serverPort} from "./server/config";
+import {ReceiveMessageFromRender, RenderMessageArgsType} from "./window/event.window";
 
 const RESOURCES_PATH = app.isPackaged ? path.join(process.resourcesPath, 'assets') : path.join(__dirname, '../assets');
 
@@ -60,7 +61,7 @@ const createWindow = async () => {
   // 获取桌面动态窗体大小
   // const { width, height } = screen.getPrimaryDisplay().workAreaSize;
   mainWindow = new BrowserWindow({
-    width: 1280, height: 960,
+    width: 960, height: 520,
     icon: getAssetPath('icon.png'),
     webPreferences: {
       nodeIntegration: true,
@@ -68,12 +69,14 @@ const createWindow = async () => {
       devTools: true, // 正式的包不会有
     },
     fullscreen: false, // 默认全屏
-    show: false // 启动时白屏优化点
+    show: false, // 启动时白屏优化点
+    frame: false, // 无边窗口化，美化窗体
   });
   // 加载主窗体
   mainWindow.loadURL(`file://${__dirname}/index.html`);
   // 开发调试栏
   // mainWindow.webContents.openDevTools();
+  // 添加事件监听处理, 渲染进程加载结束
   mainWindow.webContents.on('did-finish-load', () => {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined');
@@ -83,6 +86,10 @@ const createWindow = async () => {
   // 关闭程序
   mainWindow.on('closed', () => {
     mainWindow = null;
+  });
+  // 添加主进程渲染进程的通信机制
+  ipcMain.on('render-message', (event: IpcMainEvent, args: RenderMessageArgsType) => {
+    ReceiveMessageFromRender(mainWindow, event, args);
   });
   // 移除菜单栏
   mainWindow.setMenu(null);

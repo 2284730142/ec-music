@@ -4,6 +4,7 @@ import {AppContext} from '../../reducers/provider';
 import {withAxios} from 'react-axios';
 import {useHistory} from 'react-router';
 import {getSomething} from '../../services/api/base.api';
+import {SendMessageToWindow} from '../../window/event.window';
 
 const Other = () => {
   const {useGlobalState: {state}} = useContext(AppContext);
@@ -74,6 +75,14 @@ export const DemoPage = withAxios((props) => {
               data:{JSON.stringify(data ? data : '')}
             </Col>
           </Row>
+        </Col>
+        <Col span={24}>
+          <Button
+            onClick={() => {
+              SendMessageToWindow('CLOSE_WINDOW', {data: 1});
+            }}>
+            给主进程发送消息测试
+          </Button>
         </Col>
       </Row>
     </div>
