@@ -1,6 +1,6 @@
 {
-  "name": "electron.smart.classroom.client",
-  "productName": "智慧教室远程控制受控端",
+  "name": "white.music",
+  "productName": "白色的音乐",
   "description": "",
   "scripts": {
     "build": "concurrently \"yarn build:main\" \"yarn build:renderer\"",
@@ -31,8 +31,8 @@
     ]
   },
   "build": {
-    "productName": "智慧教室远程控制受控端",
-    "appId": "electron.smart.classroom.client",
+    "productName": "白色的音乐",
+    "appId": "white.music",
     "asar": true,
     "files": [
       "dist/",

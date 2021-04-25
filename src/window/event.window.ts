@@ -14,10 +14,16 @@ export const ReceiveMessageFromRender = (window: BrowserWindow | null, _event: I
     switch (data.method) {
       case "CLOSE_WINDOW":
         console.log('is on close window');
+        window.close();
         break;
+      // todo 做一个还原状态的window操作
       case "MAX_WINDOW":
+        console.log('is on max window');
+        window.maximize();
         break;
       case "MIN_WINDOW":
+        console.log('is on min window');
+        window.minimize();
         break;
       default:
         throw new Error();

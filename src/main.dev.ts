@@ -62,6 +62,7 @@ const createWindow = async () => {
   // const { width, height } = screen.getPrimaryDisplay().workAreaSize;
   mainWindow = new BrowserWindow({
     width: 960, height: 520,
+    minWidth: 960, minHeight: 520,
     icon: getAssetPath('icon.png'),
     webPreferences: {
       nodeIntegration: true,
