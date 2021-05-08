@@ -51,15 +51,6 @@ export default {
           }
         ]
       },
-      {
-        test: /\.node$/,
-        loader: 'native-ext-loader',
-        options: {
-          // rewritePath: process.env.NODE_ENV === 'production' ? path.resolve(__dirname, '../../resources/app/dist') : undefined
-          basePath: process.env.NODE_ENV === 'production' ? ['../assets/slsdk'] : []
-          // name: "[path][name].[ext]",
-        }
-      }
     ]
   },
 

@@ -15,9 +15,8 @@ import path from 'path';
 import {app, BrowserWindow, ipcMain, IpcMainEvent} from 'electron';
 import {autoUpdater} from 'electron-updater';
 import log from 'electron-log';
-import expressServer from './server/app';
-import {serverPort} from "./server/config";
-import {ReceiveMessageFromRender, RenderMessageArgsType} from "./window/event.window";
+import {ReceiveMessageFromRender, RenderMessageArgsType} from './window/event.window';
+import {exec} from 'child_process';
 
 const RESOURCES_PATH = app.isPackaged ? path.join(process.resourcesPath, 'assets') : path.join(__dirname, '../assets');
 
@@ -94,9 +93,14 @@ const createWindow = async () => {
   });
   // 移除菜单栏
   mainWindow.setMenu(null);
-  // 创建本地node服务（整合express） todo 更改为子线程服务后续接着改成cluster模式的service
-  expressServer.listen(serverPort, () => {
-    console.log(`Example app listening at http://localhost:${serverPort}`);
+  // 创建本地node服务（整合express）pkg打包 todo 改成cluster模式的service pm2
+  console.log(getAssetPath('run.vbs'));
+  exec(`cscript ${getAssetPath('run.vbs')}`, (err, stdout) => {
+    if (err) {
+      console.log(`err: ${err}`);
+      return;
+    }
+    console.log(`stdout: ${stdout}`);
   });
 };
 
